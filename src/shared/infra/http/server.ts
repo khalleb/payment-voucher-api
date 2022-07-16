@@ -1,19 +1,20 @@
-import 'express-async-errors';
-
 import express, { Request, Response, NextFunction, Express } from 'express';
 import { errors } from 'celebrate';
 
 import { routes } from './routes';
 import { errorConverter, errorHandler } from '../../errors/Error';
-import { env } from '../../env';
-import { AppLogger } from '../../logger';
-import { nameProject } from '../../utils/stringUtil';
+import { env } from '@shared/env';
+import { AppLogger } from '@shared/logger';
+import { nameProject } from '@shared/utils/stringUtil';
 import { getEnvironment, getVersion } from '../devops/version';
+import { registerDependencies } from '@shared/container';
 
 class Server {
   public app: Express;
 
   constructor() {
+    registerDependencies();
+
     this.app = express();
     // JSON space
     this.app.set('json spaces', 2);
@@ -45,8 +46,9 @@ class Server {
     this.app
       .listen(env.APP_API_PORT, () => {
         AppLogger.info({
-          message: `🚀 Server ${nameProject().toUpperCase()} started on port ${env.APP_API_PORT
-            } in mode ${getEnvironment()} - VERSION: ${getVersion()}`,
+          message: `🚀 Server ${nameProject().toUpperCase()} started on port ${
+            env.APP_API_PORT
+          } in mode ${getEnvironment()} - VERSION: ${getVersion()}`,
         });
       })
       .on('error', error => {

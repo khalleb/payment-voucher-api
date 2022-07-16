@@ -4,13 +4,13 @@ export type LogData<T> = {
   payload?: T;
   error?: Error;
 } & (
-    | {
+  | {
       message: any;
     }
-    | {
+  | {
       error: Error;
     }
-  );
+);
 
 export type LogMethod = <T>(logData: LogData<T>) => void;
 

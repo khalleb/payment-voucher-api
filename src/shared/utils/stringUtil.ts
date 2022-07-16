@@ -1,4 +1,4 @@
-import { env } from "../env";
+import { env } from '@shared/env';
 
 export function removeSpecialCharacters(value: string): string {
   if (!value) {

@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
-import { UsersServices } from '../../../services/UsersServices';
+import { container } from 'tsyringe';
+import { UsersServices } from '@modules/users/services/UsersServices';
 
 class UsersController {
   public async store(request: Request, response: Response): Promise<Response> {
-    const usersServices = new UsersServices();
-    const result = await usersServices.store(request);
+    const service = container.resolve(UsersServices);
+    const result = await service.store(request);
     return response.json(result);
   }
 }

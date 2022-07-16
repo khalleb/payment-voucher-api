@@ -1,11 +1,17 @@
+import { env } from '@shared/env';
 import { readFileSync, existsSync } from 'fs';
 import path from 'path';
-import { env } from '../../env';
-
 
 export function getVersionDeveloper(): string {
   try {
-    const pathPackage = path.resolve(__dirname, '..', '..', '..', '..', 'package.json');
+    const pathPackage = path.resolve(
+      __dirname,
+      '..',
+      '..',
+      '..',
+      '..',
+      'package.json',
+    );
     if (!existsSync(pathPackage)) {
       return 'FILE package.json NOT FOUND';
     }
@@ -23,7 +29,13 @@ export function getVersionDeveloper(): string {
 
 export function getVersionProduction(): string {
   try {
-    const pathVersion = path.resolve(__dirname, '..', '..', '..', 'version.json');
+    const pathVersion = path.resolve(
+      __dirname,
+      '..',
+      '..',
+      '..',
+      'version.json',
+    );
     if (!existsSync(pathVersion)) {
       return 'FILE version.json NOT FOUND';
     }

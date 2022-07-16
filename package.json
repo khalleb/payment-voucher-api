@@ -5,7 +5,7 @@
   "author": "khalleb <khallebw@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev:server": "ts-node-dev --exit-child --transpile-only --ignore-watch node_modules src/shared/infra/http/index.ts | pino-pretty -c"
+    "dev:server": "ts-node-dev -r tsconfig-paths/register --inspect=0.0.0.0:9229 --exit-child --respawn --transpile-only --ignore-watch node_modules src/shared/infra/http/index.ts | pino-pretty -c"
   },
   "dependencies": {
     "@prisma/client": "^4.0.0",
@@ -17,15 +17,27 @@
     "express-async-errors": "^3.1.1",
     "http-status": "^1.5.2",
     "jsonwebtoken": "^8.5.1",
-    "pino": "^8.1.0"
+    "pino": "^8.1.0",
+    "reflect-metadata": "^0.1.13",
+    "tsyringe": "^4.7.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.13",
     "@types/jsonwebtoken": "^8.5.8",
+    "@typescript-eslint/eslint-plugin": "^5.30.6",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-import-resolver-typescript": "^3.2.6",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-import-helpers": "^1.2.1",
+    "eslint-plugin-prettier": "^4.2.1",
     "pino-pretty": "^8.1.0",
+    "prettier": "^2.7.1",
     "prisma": "^4.0.0",
     "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.0.0",
     "typescript": "^4.7.4"
   }
 }
