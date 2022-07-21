@@ -1,0 +1,19 @@
+{
+  "validations": {
+    "invalid_email": "E-mail inválido",
+    "email_too_long": "E-mail é muito longo. Máximo de {max} caracteres"
+  },
+
+  "user": {
+    "user": "Usuário",
+    "email_alredy_exists": "E-mail já existente",
+    "enter_the_data": "Informe os dados do usuário",
+    "enter_the_name_data": "Informe o nome do usuário",
+    "enter_the_email_data": "Informe o e-mail do usuário",
+    "enter_full_name": "O nome do usuário é muito curto. Mínimo de {count} caracteres",
+    "user_name_too_long": "O nome do usuário é muito longo. Máximo de {count} caracteres",
+    "enter_the_password": "Informe a senha",
+    "enter_the_password_confirmation": "Informe a senha de confirmação",
+    "passwords_do_not_match": "As senhas não são iguais"
+  }
+}

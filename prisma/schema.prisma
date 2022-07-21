@@ -13,9 +13,12 @@ model Users {
   email    String @unique
   password String
 
-  created_at DateTime   @default(now())
-  updated_at DateTime   @default(now()) @updatedAt
-  Receipts   Receipts[]
+  active      Boolean    @default(true)
+  last_access Json?
+  created_at  DateTime   @default(now())
+  updated_at  DateTime   @default(now()) @updatedAt
+  Receipts    Receipts[]
+
   @@map("users")
 }
 
@@ -23,9 +26,11 @@ model Categories {
   id   String @id @default(uuid())
   name String
 
+  active     Boolean    @default(true)
   created_at DateTime   @default(now())
   updated_at DateTime   @default(now()) @updatedAt
   Receipts   Receipts[]
+
   @@map("categories")
 }
 
@@ -44,5 +49,6 @@ model Receipts {
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
+
   @@map("receipts")
 }

@@ -1,13 +1,8 @@
-import { Request, Response } from 'express';
-import { container } from 'tsyringe';
 import { UsersServices } from '@modules/users/services/UsersServices';
+import BaseController from '@shared/infra/http/controllers/BaseController';
 
-class UsersController {
-  public async store(request: Request, response: Response): Promise<Response> {
-    const service = container.resolve(UsersServices);
-    const result = await service.store(request);
-    return response.json(result);
-  }
+class UsersController extends BaseController<UsersServices>{
+
 }
 
 export { UsersController };

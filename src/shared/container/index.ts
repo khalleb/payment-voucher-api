@@ -1,10 +1,10 @@
 import { AppLogger } from '@shared/logger';
 
-//import { registerProviders, registeredProviders } from './providers';
+import { registerProviders, registeredProviders } from './providers';
 import { registerServices, registeredServices } from './services';
 
 const registeredDependencies = {
-  //...registeredProviders,
+  ...registeredProviders,
   ...registeredServices,
 };
 
@@ -14,7 +14,7 @@ AppLogger.info({
 });
 
 function registerDependencies() {
-  //registerProviders();
+  registerProviders();
   registerServices();
 }
 

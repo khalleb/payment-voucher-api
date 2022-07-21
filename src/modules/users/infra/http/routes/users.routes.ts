@@ -1,10 +1,12 @@
 import { Router, Request, Response } from 'express';
 
 import { celebrate, Segments, Joi } from 'celebrate';
+import { tokensServices } from '@shared/container';
 import { UsersController } from '../controllers/UsersController';
 
 const routes = Router();
 const controller = new UsersController();
+const nameService: tokensServices = 'UsersServices';
 
 routes.post(
   `/store`,
@@ -16,7 +18,7 @@ routes.post(
       password_confirmation: Joi.string().required(),
     },
   }),
-  controller.store,
+  (request: Request, response: Response) => controller.store(request, response, nameService),
 );
 
 export default routes;
