@@ -1,4 +1,9 @@
 {
+  "labels": {
+    "activated": "ativado",
+    "inactivated": "inativado"
+  },
+
   "validations": {
     "invalid_email": "E-mail inválido",
     "email_too_long": "E-mail é muito longo. Máximo de {max} caracteres"
@@ -14,6 +19,9 @@
     "user_name_too_long": "O nome do usuário é muito longo. Máximo de {count} caracteres",
     "enter_the_password": "Informe a senha",
     "enter_the_password_confirmation": "Informe a senha de confirmação",
-    "passwords_do_not_match": "As senhas não são iguais"
+    "passwords_do_not_match": "As senhas não são iguais",
+    "enter_your_ID": "Informe o ID do usuário",
+    "not_found_in_the_database": "Usuário não localizada na base de dados",
+    "there_already_email_registered_database": "Já existe um e-mail cadastrado na base. Informe outro"
   }
 }

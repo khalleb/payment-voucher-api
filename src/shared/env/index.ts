@@ -12,6 +12,7 @@ const env = cleanEnv(process.env, {
 
   APP_API_PORT: port({ example: '3333' }),
   NAME_PROJECT: str({ example: `NAME_PROJECT` }),
+  PAGE_SIZE: num({ example: `10`, default: 10 }),
   LOG_LEVEL: str({
     choices: ['debug', 'info', 'warn', 'error', 'fatal'],
     example: 'debug',

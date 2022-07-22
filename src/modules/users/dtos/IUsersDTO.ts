@@ -1,4 +1,5 @@
-export interface ICreateUsers {
+export interface IUsersDTO {
+  id?: string;
   name: string;
   email: string;
   password: string;

@@ -1,27 +1,27 @@
 import { Request } from 'express';
 import { inject, injectable } from 'tsyringe';
-import { Users } from '@prisma/client';
+import { Prisma, Users } from '@prisma/client';
 import AppError from '@shared/errors/AppError';
-import { ICreateUsers } from '../dtos/IUsersDTO';
+import { IUsersDTO } from '../dtos/IUsersDTO';
 import { IHashProvider } from '@shared/container/providers/HashProvider/models/IHashProvider';
-import { IPrismaProvider } from '@shared/container/providers/Prisma/models/IPrismaProvider';
 import { i18n } from '@shared/internationalization';
 import { IServicesBase } from '@shared/infra/http/services/IServicesBase';
 import { emailIsValid } from '@shared/utils/validations';
+import { prisma } from '@shared/infra/prisma/prismaClient';
+import { HttpResponseMessage, messageResponse } from '@shared/infra/http/core/HttpResponse';
+import { removeProperty } from '@shared/utils/objectUtil';
+import { IPaginatedResult, IPaginateOptions, createPaginator } from '@shared/infra/prisma/core/Pagination';
 
 @injectable()
 class UsersServices implements IServicesBase {
 
   constructor(
-    @inject('PrismaProvider')
-    private _prisma: IPrismaProvider,
-
     @inject('HashProvider')
     private _hashProvider: IHashProvider
   ) { }
 
 
-  async datasValidate(data: ICreateUsers): Promise<ICreateUsers> {
+  async datasValidate(data: IUsersDTO): Promise<IUsersDTO> {
     if (!data) {
       throw new AppError(i18n('user.enter_the_data'));
     }
@@ -54,9 +54,9 @@ class UsersServices implements IServicesBase {
 
   public async store(req: Request): Promise<Users> {
     const { body } = req;
-    let data: ICreateUsers = body;
+    let data: IUsersDTO = body;
     data = await this.datasValidate(data);
-    const userExist = await this._prisma.repository().users.findFirst({
+    const userExist = await prisma.users.findFirst({
       where: {
         email: {
           equals: data.email,
@@ -83,7 +83,7 @@ class UsersServices implements IServicesBase {
     }
 
     data.password = await this._hashProvider.generateHash(data.password);
-    const user = await this._prisma.repository().users.create({
+    const user = await prisma.users.create({
       data: {
         name: data.name,
         email: data.email,
@@ -94,20 +94,76 @@ class UsersServices implements IServicesBase {
     return user;
   }
 
-  update(data: Request): Promise<any> {
-    throw new Error('Method not implemented.');
+  async update(req: Request): Promise<Users> {
+    const { body } = req;
+    let data: IUsersDTO = body;
+    data = await this.datasValidate(data);
+
+    if (!data?.id) {
+      throw new AppError(i18n('user.enter_your_ID'));
+    }
+
+    const user = await prisma.users.findFirst({ where: { id: data.id } });
+    if (!user) {
+      throw new AppError(i18n('user.not_found_in_the_database'));
+    }
+
+    const checkEmail = await prisma.users.findFirst({ where: { email: data.email } });
+    if (checkEmail && checkEmail.id !== data.id) {
+      throw new AppError(i18n('user.there_already_email_registered_database'));
+    }
+    const result = await prisma.users.update({
+      where: { id: data.id },
+      data: {
+        name: data.name,
+        email: data.email,
+      },
+    });
+    return result;
   }
 
   delete(data: Request): Promise<any> {
     throw new Error('Method not implemented.');
   }
 
-  show(data: Request): Promise<any> {
-    throw new Error('Method not implemented.');
+  async show(req: Request): Promise<Users | null> {
+    const { query } = req;
+    const id = query?.id as string;
+
+    if (!id) {
+      throw new AppError(i18n('user.enter_your_ID'));
+    }
+    const user = await prisma.users.findFirst({ where: { id } });
+    return removeProperty(user, ['password']);
   }
 
-  inactivateActivate(data: Request): Promise<any> {
-    throw new Error('Method not implemented.');
+  async inactivateActivate(req: Request): Promise<HttpResponseMessage> {
+    const { query } = req;
+    const id = query.id as string;
+    if (!id) {
+      throw new AppError(i18n('user.enter_your_ID'));
+    }
+    const user = await prisma.users.findFirst({ where: { id: id } });
+    if (!user) {
+      throw new AppError(i18n('user.not_found_in_the_database'));
+    }
+
+    await prisma.users.update({
+      where: { id: id },
+      data: {
+        active: !user.active,
+      },
+    });
+
+    return messageResponse(
+      `${i18n('user.user')} ${user.active ? i18n('labels.inactivated') : i18n('labels.activated')}`,
+    );
+  }
+
+  async index(datas: IPaginateOptions): Promise<IPaginatedResult> {
+    const paginate = createPaginator(datas)
+    const result = await paginate<Prisma.UsersFindManyArgs>(prisma.users, {});
+    return result;
   }
 }
 

@@ -6,6 +6,7 @@ import { container } from 'tsyringe';
 import { tokensServices } from '@shared/container';
 import { cleanObject } from '@shared/utils/objectUtil';
 import { IServicesBase } from '../services/IServicesBase';
+import { IPagination } from '@shared/infra/prisma/core/Pagination';
 
 
 export abstract class BaseController<T extends IServicesBase> {
@@ -40,10 +41,10 @@ export abstract class BaseController<T extends IServicesBase> {
   }
 
   public async index(request: Request, response: Response, serviceName: tokensServices): Promise<any> {
-    // const service = container.resolve<T>(serviceName);
-    // const datasPagination: IPagination = request.body;
-    // const data = await (service.index && service.index(datasPagination));
-    return response.json({});
+    const service = container.resolve<T>(serviceName);
+    const datasPagination: IPagination = request.body;
+    const data = await (service.index && service.index(datasPagination));
+    return response.json(data);
   }
 }
 

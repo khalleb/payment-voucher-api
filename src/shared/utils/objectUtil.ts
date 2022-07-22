@@ -6,9 +6,9 @@ export function getValueByProperty(object: any, path: string): any {
   return '';
 }
 
-export function removeProperty(objects: any, nameProperty: string): any {
+export function removeProperty(objects: any, nameProperty: string[]): any {
   const newObject = Object.keys(objects).reduce((object: any, key: string) => {
-    if (key !== nameProperty) {
+    if (!nameProperty.includes(key)) {
       object[key] = objects[key];
     }
     return object;
@@ -51,7 +51,6 @@ export function cleanObject(object: any): any {
 
   for (const [key, value] of Object.entries<any>(object)) {
     if (
-      value &&
       value !== undefined &&
       value !== null &&
       value !== 'null' &&
@@ -79,6 +78,9 @@ export function cleanObject(object: any): any {
         let valueAux = value;
         if (typeof valueAux === 'string') {
           valueAux = valueAux.trim();
+        }
+        if (typeof valueAux === 'boolean') {
+          newObject[key] = valueAux;
         }
         if (valueAux) {
           newObject[key] = valueAux;
