@@ -1,13 +1,15 @@
-import express, { Request, Response, NextFunction, Express } from 'express';
+import express, { Express } from 'express';
+
 import { errors } from 'celebrate';
 
-import { routes } from './routes';
-import { errorConverter, errorHandler } from '../../errors/Error';
+import { registerDependencies } from '@shared/container';
 import { env } from '@shared/env';
 import { AppLogger } from '@shared/logger';
 import { nameProject } from '@shared/utils/stringUtil';
+
+import { errorConverter, errorHandler } from '../../errors/Error';
 import { getEnvironment, getVersion } from '../devops/version';
-import { registerDependencies } from '@shared/container';
+import { routes } from './routes';
 
 class Server {
   public app: Express;

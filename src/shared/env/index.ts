@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { cleanEnv, str, port, url, num } from 'envalid';
+import { cleanEnv, str, port, num } from 'envalid';
 
 const env = cleanEnv(process.env, {
   NODE_ENV: str({

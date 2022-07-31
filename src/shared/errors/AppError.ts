@@ -5,11 +5,7 @@ class AppError extends Error {
 
   public readonly statusCode: number;
 
-  constructor(
-    message: string,
-    statusCode = httpStatus.BAD_REQUEST,
-    stack = '',
-  ) {
+  constructor(message: string, statusCode = httpStatus.BAD_REQUEST, stack = '') {
     super(message);
     this.statusCode = statusCode;
     this.message = message;

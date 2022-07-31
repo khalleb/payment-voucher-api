@@ -1,25 +1,26 @@
 import { Request } from 'express';
-import { inject, injectable } from 'tsyringe';
+
 import { Prisma, Users } from '@prisma/client';
-import AppError from '@shared/errors/AppError';
-import { IUsersDTO } from '../dtos/IUsersDTO';
+import { inject, injectable } from 'tsyringe';
+
 import { IHashProvider } from '@shared/container/providers/HashProvider/models/IHashProvider';
-import { i18n } from '@shared/internationalization';
-import { IServicesBase } from '@shared/infra/http/services/IServicesBase';
-import { emailIsValid } from '@shared/utils/validations';
-import { prisma } from '@shared/infra/prisma/prismaClient';
+import AppError from '@shared/errors/AppError';
 import { HttpResponseMessage, messageResponse } from '@shared/infra/http/core/HttpResponse';
-import { removeProperty } from '@shared/utils/objectUtil';
+import { IServicesBase } from '@shared/infra/http/services/IServicesBase';
 import { IPaginatedResult, IPaginateOptions, createPaginator } from '@shared/infra/prisma/core/Pagination';
+import { prisma } from '@shared/infra/prisma/prismaClient';
+import { i18n } from '@shared/internationalization';
+import { removeProperty } from '@shared/utils/objectUtil';
+import { emailIsValid } from '@shared/utils/validations';
+
+import { IUsersDTO } from '../dtos/IUsersDTO';
 
 @injectable()
 class UsersServices implements IServicesBase {
-
   constructor(
     @inject('HashProvider')
-    private _hashProvider: IHashProvider
-  ) { }
-
+    private _hashProvider: IHashProvider,
+  ) {}
 
   async datasValidate(data: IUsersDTO): Promise<IUsersDTO> {
     if (!data) {
@@ -108,7 +109,9 @@ class UsersServices implements IServicesBase {
       throw new AppError(i18n('user.not_found_in_the_database'));
     }
 
-    const checkEmail = await prisma.users.findFirst({ where: { email: data.email } });
+    const checkEmail = await prisma.users.findFirst({
+      where: { email: data.email },
+    });
     if (checkEmail && checkEmail.id !== data.id) {
       throw new AppError(i18n('user.there_already_email_registered_database'));
     }
@@ -122,7 +125,7 @@ class UsersServices implements IServicesBase {
     return result;
   }
 
-  delete(data: Request): Promise<any> {
+  delete(_: Request): Promise<any> {
     throw new Error('Method not implemented.');
   }
 
@@ -143,13 +146,13 @@ class UsersServices implements IServicesBase {
     if (!id) {
       throw new AppError(i18n('user.enter_your_ID'));
     }
-    const user = await prisma.users.findFirst({ where: { id: id } });
+    const user = await prisma.users.findFirst({ where: { id } });
     if (!user) {
       throw new AppError(i18n('user.not_found_in_the_database'));
     }
 
     await prisma.users.update({
-      where: { id: id },
+      where: { id },
       data: {
         active: !user.active,
       },
@@ -161,7 +164,7 @@ class UsersServices implements IServicesBase {
   }
 
   async index(datas: IPaginateOptions): Promise<IPaginatedResult> {
-    const paginate = createPaginator(datas)
+    const paginate = createPaginator(datas);
     const result = await paginate<Prisma.UsersFindManyArgs>(prisma.users, {});
     return result;
   }

@@ -7,6 +7,6 @@ declare namespace Express {
     session: {
       token: string;
       language: string;
-    }
+    };
   }
 }

@@ -23,5 +23,17 @@
     "enter_your_ID": "Informe o ID do usuário",
     "not_found_in_the_database": "Usuário não localizada na base de dados",
     "there_already_email_registered_database": "Já existe um e-mail cadastrado na base. Informe outro"
+  },
+
+  "category": {
+    "category": "Categoria",
+    "enter_the_data": "Informe os dados da categoria",
+    "enter_the_name_data": "Informe o nome da categoria",
+    "enter_full_name": "O nome da categoria é muito curto. Mínimo de {count} caracteres",
+    "category_name_too_long": "O nome da categoria é muito longo. Máximo de {count} caracteres",
+    "name_alredy_exists": "Nome da categoria já existente",
+    "enter_your_ID": "Informe o ID da categoria",
+    "not_found_in_the_database": "Categoria não localizada na base de dados",
+    "there_already_name_registered_database": "Já existe um nome cadastrado na base. Informe outro"
   }
 }

@@ -1,6 +1,6 @@
-
 export enum Routes {
   USER = 'user',
+  CATEGORY = 'category',
 }
 
 export enum RoutesNameType {

@@ -5,7 +5,8 @@
   "author": "khalleb <khallebw@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev:server": "ts-node-dev -r tsconfig-paths/register --inspect=0.0.0.0:9229 --exit-child --respawn --transpile-only --ignore-watch node_modules src/shared/infra/http/index.ts | pino-pretty -c"
+    "dev:server": "ts-node-dev -r tsconfig-paths/register --inspect=0.0.0.0:9229 --exit-child --respawn --transpile-only --ignore-watch node_modules src/shared/infra/http/index.ts | pino-pretty -c",
+    "style": "npx eslint --fix . && npx prettier --write ."
   },
   "dependencies": {
     "@prisma/client": "^4.0.0",
@@ -28,6 +29,7 @@
     "@types/jsonwebtoken": "^8.5.8",
     "@types/lodash": "^4.14.182",
     "@typescript-eslint/eslint-plugin": "^5.30.6",
+    "@typescript-eslint/parser": "^5.31.0",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.5.0",

@@ -6,25 +6,20 @@ import { RoutesNameType } from '@shared/commons/constants';
 import { tokensServices } from '@shared/container';
 import { paginationRoute } from '@shared/infra/http/routes/validation.routes';
 
-import { UsersController } from '../controllers/UsersController';
+import { CategoriesController } from '../controllers/CategoriesController';
 
 const routes = Router();
-const controller = new UsersController();
-const nameService: tokensServices = 'UsersServices';
+const controller = new CategoriesController();
+const nameService: tokensServices = 'CategoriesServices';
 
 const datasCreateUpdate = {
   name: Joi.string().required(),
-  email: Joi.string().email().required(),
 };
 
 routes.post(
   `/${RoutesNameType.STORE}`,
   celebrate({
-    [Segments.BODY]: {
-      ...datasCreateUpdate,
-      password: Joi.string().required(),
-      password_confirmation: Joi.string().required(),
-    },
+    [Segments.BODY]: datasCreateUpdate,
   }),
   (request: Request, response: Response) => controller.store(request, response, nameService),
 );
